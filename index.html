@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MelonClient</title>
+    <style>
+        /* Make the browser window completely seamless */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000;
+        }
+
+        /* Embed the live client in full screen */
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* MelonClient Splash Screen Layer sitting perfectly on top */
+        #melon-splash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #72DC4B; /* Matches your bright green logo background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999999; /* Forces splash screen to overlay the iframe */
+            opacity: 1;
+            transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        #melon-logo {
+            max-width: 600px;
+            width: 75%;
+            height: auto;
+        }
+
+        /* Transition style to fade it out smoothly */
+        .fade-away {
+            opacity: 0 !important;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. The custom splash overlay -->
+    <div id="melon-splash">
+        <img src="melonclient.png" alt="MelonClient Logo" id="melon-logo">
+    </div>
+
+    <!-- 2. The embedded live Incari Client game portal -->
+    <iframe src="https://incariclient.org/play/" title="Melon Client"></iframe>
+
+    <!-- 3. The fade out controller script -->
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const splash = document.getElementById('melon-splash');
+            
+            // Keeps the bright green screen up for 2.5 seconds, then triggers fade out
+            setTimeout(() => {
+                splash.classList.add('fade-away');
+                
+                // Safely completely clears the splash element from memory after fade finishes
+                setTimeout(() => {
+                    splash.remove();
+                }, 1200);
+            }, 2500);
+        });
+    </script>
+
+</body>
+</html>
